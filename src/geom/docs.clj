@@ -42,7 +42,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root {
---color-white:     #e2e2e2;
+--color-white:     #e6e6e8;
 --color-cool-grey: #597d8e;
 --color-teal:      #5abeb1;
 --color-blue:      #4aa7e9;
@@ -56,7 +56,7 @@
 --color-dark-yellow: color-mix(in srgb, var(--color-yellow), var(--color-black) 30%);
 --color-dark-teal: color-mix(in srgb, var(--color-teal), var(--color-black) 20%);
 --color-dark-blue: color-mix(in srgb, var(--color-blue), var(--color-black) 20%);
---color-dark-green: color-mix(in srgb, var(--color-green), var(--color-black) 20%);
+--color-dark-green: color-mix(in srgb, var(--color-green), var(--color-black) 30%);
 }
 
 body {font-family: 'Atkinson Hyperlegible Next', sans-serif;
@@ -81,9 +81,10 @@ font-weight: 500;
 font-size: 1em;
 padding: 0em;}
 
+
 .sourceCode .hljs-name, .hljs-built_in, .hljs-literal {color: black;}
-.sourceCode .hljs-title  {color: var(--color-dark-red); font-weight: 700;}
-.sourceCode .hljs-keyword  {font-weight: 500;}
+.sourceCode .hljs-title  {color: var(--color-dark-red); font-weight: 800;}
+.sourceCode .hljs-keyword  {font-weight: 600; color: var(--color-black);}
 .sourceCode .hljs-number, .hljs-symbol {color: var(--color-dark-yellow);}
 .sourceCode .hljs-string  {color: var(--color-dark-green);}
 
@@ -127,9 +128,10 @@ grid-column: 1 / span 5;}
   "This is an illustrated guide to how the parts of this library fit together."]
  [:div {:style {:grid-column "span 2"}} tri-svg-animation]]
 
+^{:kindly/hide-code true}
 (defn display-expr [e] (kind/code (with-out-str (pprint/pprint e))))
-;; thing-geom test
 
+^{:kindly/hide-code true}
 (defn var-meta->hiccup
   [{:keys [arglists name ns line column file] :as var-meta} src-url]
   (list "arguments:"
@@ -140,22 +142,6 @@ grid-column: 1 / span 5;}
          [:a {:href (str src-url "/" file "#L" line) :target "_blank"}
           (str file " L" line)]]))
 
-;; the centroid of a 2d vector is the vector
-(extend-protocol g/ICenter
- Vec2
-   #_(center ([_] _))
-   (centroid ([_] _)))
-
-(extend-protocol g/IRotate
- clojure.lang.PersistentVector
-   (rotate ([v theta] (mapv (fn [g] (g/rotate g theta)) v))))
-
-(defn translate-from
-  [g-obj dist bearing]
-  (let [[x y] (g/centroid g-obj)
-        Δx    (* dist (Math/sin bearing))
-        Δy    (* dist (Math/cos bearing))]
-    (g/translate g-obj (v/vec2 Δx Δy))))
 
 (defn get-literal
   [r]
@@ -374,7 +360,30 @@ grid-column: 1 / span 5;}
 
 ;; Here's the definition of the triangle SVG animation.
 
-;; First, define a multi-point line that the triangles will be drawn along.
+;; First, add some helper functions and extensions of the basic components:
+
+(extend-protocol g/ICenter
+ ;; the centroid of a 2d vector is the vector
+ Vec2
+   (centroid ([_] _)))
+
+(extend-protocol g/IRotate
+ ;; extend the rotate protocol to a vector by rotating all the elements
+ clojure.lang.PersistentVector
+   (rotate ([v theta] (mapv (fn [g] (g/rotate g theta)) v))))
+
+(defn translate-from
+  "Get a point `dist` away from `g-obj` using polar coordinates"
+  [g-obj dist bearing]
+  (let [[x y] (g/centroid g-obj)
+        Δx    (* dist (Math/sin bearing))
+        Δy    (* dist (Math/cos bearing))]
+    (g/translate g-obj (v/vec2 Δx Δy))))
+
+
+
+
+;; Then, define a multi-point line that the triangles will be drawn along.
 
 
 (def tri-base-line
