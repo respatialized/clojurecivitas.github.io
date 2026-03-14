@@ -6,6 +6,9 @@
          :title       "thi.ng/geom Documentation"}
   :kindly/hide-code true}
 (ns geom.docs
+  {:kindly/options {:kinds-that-hide-code   #{:kind/hiccup #_:kind/var}
+                    :kindly/hide-code?      true
+                    :kinds-that-hide-values #{:kind/var}}}
   (:require [thi.ng.geom.core :as g]
             [thi.ng.geom.svg.adapter]
             [thi.ng.geom.svg.core :as svg]
@@ -30,28 +33,99 @@
             Polygon2 Rect2 Triangle2]
            [thi.ng.geom.vector Vec2]))
 
+^{:kindly/hide-code true :kindly/options {:kindly/hide-result true}}
 (declare tri-svg-animation)
 
-^{:kindly/hide-code true :kindly/kind :kind/hiccup}
+^{#_#_:kindly/hide-code true :kindly/kind :kind/hiccup}
 [:style #_(list [:.annotation {:display "none"}])
- ".annotation {display: none;}
+ "
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+--color-white:     #e2e2e2;
+--color-cool-grey: #597d8e;
+--color-teal:      #5abeb1;
+--color-blue:      #4aa7e9;
+--color-green:     #31bc5a;
+--color-pink:      #e788ea;
+--color-red:       #ff5549;
+--color-yellow:    #ecd248;
+--color-black:     #1a1a1a;
+--color-dark-red: color-mix(in srgb, var(--color-red), var(--color-black) 20%);
+--color-dark-cool-grey: color-mix(in srgb, var(--color-cool-grey), var(--color-black) 20%);
+--color-dark-yellow: color-mix(in srgb, var(--color-yellow), var(--color-black) 30%);
+--color-dark-teal: color-mix(in srgb, var(--color-teal), var(--color-black) 20%);
+--color-dark-blue: color-mix(in srgb, var(--color-blue), var(--color-black) 20%);
+--color-dark-green: color-mix(in srgb, var(--color-green), var(--color-black) 20%);
+}
+
+body {font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background: var(--color-white);
+      font-size: 21px;}
+
+dt, dd {font-weight: 400;}
+
+.bg-light {background: var(--color-white);
+           background-color: var(--color-white) !important;
+           --bslib-color-bg: var(--color-white);
+           --bslib-color-fg: var(--color-black);
+           color: var(--color-black);}
+
+pre,code,.sourceCode {font-family: 'Atkinson Hyperlegible Mono', monospace;}
+
+pre, code:not(.sourceCode) {color: var(--color-dark-red);
+                            background: var(--color-white);}
+
+p code:not(.sourceCode) {background: var(--color-white); background-color: var(--color-white);
+font-weight: 500;
+font-size: 1em;
+padding: 0em;}
+
+.sourceCode .hljs-name, .hljs-built_in, .hljs-literal {color: black;}
+.sourceCode .hljs-title  {color: var(--color-dark-red); font-weight: 700;}
+.sourceCode .hljs-keyword  {font-weight: 500;}
+.sourceCode .hljs-number, .hljs-symbol {color: var(--color-dark-yellow);}
+.sourceCode .hljs-string  {color: var(--color-dark-green);}
+
+h1,h2,h3,h4,h5,h6 {font-size: 1.5em;}
+
+font-size: 0.9em;
+line-height: 1.45em;}
+
+.annotation {display: none;}
 .annotation:hover {display: content;}
 .doc-grid {
  display: grid;
- grid-auto-columns: minmax(20px, 25ch);
+ grid-auto-columns: auto;
 }
 .doc-grid h1,h2,h3,h4,h5,h6 {grid-column: 1 / span 5;}
 .doc-grid p {grid-column: 1 / span 3;}
 .doc-grid dl {display: grid; grid-template-columns: subgrid;
 grid-column: 1 / span 5;}
+.doc-grid dl .hljs {
+  padding: 0em;
+  font-size: 0.85em;
+}
 
 "]
 
 ^{:kindly/hide-code true :kindly/kind :kind/hiccup}
-[:h1 {:class "big wide"} "thi.ng/geom"]
+[:h1 {:class "big wide"} "An introduction to 2d geometry with "
+ [:code "thi.ng/geom"]]
 
 
-^{:kindly/hide-code true :kindly/kind :kind/hiccup} tri-svg-animation
+^{:kindly/hide-code true :kindly/kind :kind/hiccup}
+[:section
+ {:id    "intro-paragraph-illustration"
+  :style {:column-gap "1em"
+          :display    :grid
+          :grid-template-columns "repeat(4, 1fr)"}}
+ [:p {:style {:grid-column "1 / span 2"}}
+  [:code [:a {:href "github.com/thi-ng/geom/"} "thi.ng/geom"]]
+  " is a computational geometry toolkit for Clojure. Using this library, you can create shapes like polygons, rectangles, circles, ellipses, triangles - and then use those geometries as building blocks for more complex compositions, like this triangle animation."
+  [:br]
+  "This is an illustrated guide to how the parts of this library fit together."]
+ [:div {:style {:grid-column "span 2"}} tri-svg-animation]]
 
 (defn display-expr [e] (kind/code (with-out-str (pprint/pprint e))))
 ;; thing-geom test
@@ -105,7 +179,7 @@ grid-column: 1 / span 5;}
 (def github-src-url "https://github.com/thi-ng/geom/tree/feature/no-org/src")
 
 (def hex-colors
-  {:white     "#e2e2e2"
+  {:white     "#f4f4f8"
    :cool-grey "#597d8e"
    :teal      "#5abeb1"
    :blue      "#5abeb1"
@@ -197,6 +271,7 @@ grid-column: 1 / span 5;}
    (ns-publics 'thi.ng.geom.core)))
 
 
+
 ^{:kindly/hide-code true :kindly/kind :kind/hiccup}
 [:div {:class "doc-grid"}
  [:h5 [:span {:class "wide"} "Core type:"] [:br]
@@ -212,8 +287,8 @@ grid-column: 1 / span 5;}
     "thi.ng.geom.rect"]] " namespace"] [:h5 {:class "wide"} "Functions"]
  [:dl
   (for [[sym v] (ns-publics 'thi.ng.geom.rect)]
-    (list [:dt {:style {:grid-column "1 / span 1"}} [:code sym]]
-          [:dd {:style {:grid-column "span 3"}}
+    (list [:dt {:style {:grid-column "1 / span 1"}} [:strong [:code sym]]]
+          [:dd {:style {:grid-column-end "auto"}}
            (var-meta->hiccup (meta v) github-src-url)
            #_[:pre (display-expr (meta v))]]))]
  [:h5 [:code "thi.ng.geom.core"]
@@ -224,9 +299,10 @@ grid-column: 1 / span 5;}
                               (contains? (:impls value)
                                          thi.ng.geom.types.Rect2)))
                           geom-core-protocols)]
-    (list [:dt {:style {:grid-column "1 / span 1"}} (display-expr sym)]
+    (list [:dt {:style {:grid-column "1 / span 1"}}
+           [:strong (display-expr sym)]]
           (let [v (var-get var)]
-            [:dt {:style {:grid-column "span 3"}}
+            [:dd {:style {:grid-column "2 / -1"}}
              (-> v
                  (select-keys [:on :sigs :arglists])
                  (display-expr))])))]]
@@ -296,60 +372,89 @@ grid-column: 1 / span 5;}
 ^{:kindly/hide-code true :kindly/kind :kind/hiccup}
 [:h4 {:class "wide"} "thi.ng.geom.triangle"]
 
-;;2-dimensional and 3-dimensional triangle generation
+;; Here's the definition of the triangle SVG animation.
 
-^{:kindly/hide-code true :kindly/hide-result true}
+;; First, define a multi-point line that the triangles will be drawn along.
+
+
+(def tri-base-line
+  (->> {:pt (vec2 0 0) :dist 18 :bearing (m/radians 270)}
+       (iterate (fn [{:keys [pt dist bearing]}]
+                  {:pt      (translate-from pt dist bearing)
+                   :dist    (+ dist 0)
+                   :bearing (- bearing (m/radians 120))}))
+       (map :pt)
+       (take 3)
+       (types/->LineStrip2)))
+
+
+;; Each point is at a constant distance and bearing from the last. Taking 3
+;; points results in 2 line segments.
+
+;; Define the number of times to repeat the line:
+
+(def triangle-line-ct 6)
+
+;; Then rotate the line segment around the center, sample along it to generate
+;; a
+;; sequence of points, and draw a triangle at each of them.
+(def triangles-along-line
+  (map-indexed
+   (fn [ix l]
+     (let [angle (* (* (/ 1.0 triangle-line-ct) ix) (* Math/PI 2))]
+       (-> l
+           (g/center)
+           (g/rotate angle)
+           (translate-from 22 angle)
+           (g/translate (vec2 50 50))
+           (g/sample-uniform 3 false)
+           (#(map (fn [pt] (tri/equilateral2 pt (translate-from pt 18 angle)))
+                  %)))))
+   (repeat triangle-line-ct tri-base-line)))
+
+;; Then convert to SVG and add them to a group element that sets a SVG
+;; animation
+;; property on the outline of each triangle shape.
+^{:kindly/hide-code false :kindly/hide-result true}
 (def tri-svg-animation
-  (let [line      (->> {:pt (vec2 0 0) :dist 18 :bearing (m/radians 270)}
-                       (iterate (fn [{:keys [pt dist bearing]}]
-                                  {:pt      (translate-from pt dist bearing)
-                                   :dist    (+ dist 0)
-                                   :bearing (- bearing (m/radians 120))}))
-                       (map :pt)
-                       (take 3)
-                       (types/->LineStrip2))
-        line-ct   6
-        triangles (map-indexed (fn [ix l]
-                                 (let [angle (* (* (/ 1.0 line-ct) ix)
-                                                (* Math/PI 2))]
-                                   (-> l
-                                       (g/center)
-                                       (g/rotate angle)
-                                       (translate-from 22 angle)
-                                       (g/translate (vec2 50 50))
-                                       (g/sample-uniform 3 false)
-                                       (#(map (fn [pt]
-                                                (tri/equilateral2
-                                                 pt
-                                                 (translate-from pt 18 angle)))
-                                              %)))))
-                               (repeat line-ct line))]
-    (svg/serialize
-     (svg/svg {:width   "auto"
-               :height  "auto"
-               :style   {:grid-column      "1 / span 3"
-                         :background-color (:red hex-colors)}
-               :viewBox "0 0 100 100"}
-              (->> triangles
-                   (mapcat identity)
-                   (adapt/all-as-svg)
-                   (map (fn [t]
-                          (update t
-                                  1
-                                  merge
-                                  {:fill            (:red hex-colors)
-                                   :stroke          (:black hex-colors)
-                                   :stroke-dasharray "12 2"
-                                   :stroke-linecap  "round"
-                                   :stroke-linejoin "round"
-                                   :stroke-width    0.9})))
-                   (reduce conj
-                           [:g
-                            [:animate
-                             {:attributeName "stroke-dashoffset"
-                              :values        "0;2000"
-                              :additive      "sum"
-                              :dur           "360s"
-                              :repeatCount   "indefinite"}]]))))))
+  (svg/serialize
+   (svg/svg {:width   "auto"
+             :height  "auto"
+             :style   {:background-color (:red hex-colors)}
+             :viewBox "0 0 100 100"}
+            (->> triangles-along-line
+                 (mapcat identity)
+                 (adapt/all-as-svg)
+                 (map (fn [t]
+                        (update t
+                                1
+                                merge
+                                {:fill            (:red hex-colors)
+                                 :stroke          (:black hex-colors)
+                                 :stroke-dasharray "12 2"
+                                 :stroke-linecap  "round"
+                                 :stroke-linejoin "round"
+                                 :stroke-width    0.9})))
+                 (reduce conj
+                         [:g
+                          [:animate
+                           {:attributeName "stroke-dashoffset"
+                            :values        "0;2000"
+                            :additive      "sum"
+                            :dur           "360s"
+                            :repeatCount   "indefinite"}]])))))
 
-;; more to come!
+
+
+;; ## Worked example
+;; Say you wanted to do this:
+(kind/hiccup
+ [:blockquote
+  "“draw a triangle at each of 36 evenly spaced points along the edge of a circle, then duplicate and flip them along a 45° line.”"])
+
+;; The shorthand we'll use here is to define all of the X and Y positions
+;; between 0 and 1, with 0 representing the left and top, and 1 representing
+;; the
+;; right and bottom.
+
+(def circle nil)
