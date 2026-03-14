@@ -113,9 +113,14 @@ Will live reload your changes (see [command line](https://scicloj.github.io/clay
 
 **REPL alternative**
 
-If you prefer invoking Clay from the REPL,
-see [scicloj.clay.v2.snippets/make-ns-html!](https://github.com/scicloj/clay/blob/main/src/scicloj/clay/v2/snippets.clj)
-and the [Clay API documentation](https://scicloj.github.io/clay/#api).
+If you prefer invoking Clay from the REPL, just call this function after your repl launches to 
+start the browser and detect changes to the posts you're working on:
+```clojure
+user> (dev!)
+```
+
+See [scicloj.clay.v2.snippets/make-ns-html!](https://github.com/scicloj/clay/blob/main/src/scicloj/clay/v2/snippets.clj)
+and the [Clay API documentation](https://scicloj.github.io/clay/#api) for more information on REPL-friendly functions.
 
 ### Previewing the Website with Quarto **(Optional, Not Required)**
 
