@@ -1,9 +1,15 @@
-^{:clay {:category    :clojure
-         :date        "2026-03-07"
-         :description "Documenting thi.ng/geom through examples"
-         :quarto      {:author :respatialized}
-         :tags        [:geometry :graphics]
-         :title       "thi.ng/geom Documentation"}
+^{:clay {:quarto {:author      :respatialized
+                  :category    :clojure
+                  :css         "geom.css"
+                  :date        "2026-03-07"
+                  :description "Documenting thi.ng/geom through examples"
+                  :tags        [:geometry :graphics :thi-ng-geom]
+                  ;;:syntax-highlighting "none"
+                  ;:theme       "basic"
+                  :toc         true
+                  :toc-depth   2
+                  :type        :post}
+         :title  "An introduction to 2d geometry with thi.ng/geom"}
   :kindly/hide-code true}
 (ns geom.docs
   {:kindly/options {:kinds-that-hide-code   #{:kind/hiccup #_:kind/var}
@@ -35,80 +41,6 @@
 
 ^{:kindly/hide-code true :kindly/options {:kindly/hide-result true}}
 (declare tri-svg-animation)
-
-^{#_#_:kindly/hide-code true :kindly/kind :kind/hiccup}
-[:style #_(list [:.annotation {:display "none"}])
- "
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
-
-:root {
---color-white:     #e6e6e8;
---color-cool-grey: #597d8e;
---color-teal:      #5abeb1;
---color-blue:      #4aa7e9;
---color-green:     #31bc5a;
---color-pink:      #e788ea;
---color-red:       #ff5549;
---color-yellow:    #ecd248;
---color-black:     #1a1a1a;
---color-dark-red: color-mix(in srgb, var(--color-red), var(--color-black) 20%);
---color-dark-cool-grey: color-mix(in srgb, var(--color-cool-grey), var(--color-black) 20%);
---color-dark-yellow: color-mix(in srgb, var(--color-yellow), var(--color-black) 30%);
---color-dark-teal: color-mix(in srgb, var(--color-teal), var(--color-black) 20%);
---color-dark-blue: color-mix(in srgb, var(--color-blue), var(--color-black) 20%);
---color-dark-green: color-mix(in srgb, var(--color-green), var(--color-black) 30%);
-}
-
-body {font-family: 'Atkinson Hyperlegible Next', sans-serif;
-      background: var(--color-white);
-      font-size: 21px;}
-
-dt, dd {font-weight: 400;}
-
-.bg-light {background: var(--color-white);
-           background-color: var(--color-white) !important;
-           --bslib-color-bg: var(--color-white);
-           --bslib-color-fg: var(--color-black);
-           color: var(--color-black);}
-
-pre,code,.sourceCode {font-family: 'Atkinson Hyperlegible Mono', monospace;}
-
-pre, code:not(.sourceCode) {color: var(--color-dark-red);
-                            background: var(--color-white);}
-
-p code:not(.sourceCode) {background: var(--color-white); background-color: var(--color-white);
-font-weight: 500;
-font-size: 1em;
-padding: 0em;}
-
-
-.sourceCode .hljs-name, .hljs-built_in, .hljs-literal {color: black;}
-.sourceCode .hljs-title  {color: var(--color-dark-red); font-weight: 800;}
-.sourceCode .hljs-keyword  {font-weight: 600; color: var(--color-black);}
-.sourceCode .hljs-number, .hljs-symbol {color: var(--color-dark-yellow);}
-.sourceCode .hljs-string  {color: var(--color-dark-green);}
-
-h1,h2,h3,h4,h5,h6 {font-size: 1.5em;}
-
-font-size: 0.9em;
-line-height: 1.45em;}
-
-.annotation {display: none;}
-.annotation:hover {display: content;}
-.doc-grid {
- display: grid;
- grid-auto-columns: auto;
-}
-.doc-grid h1,h2,h3,h4,h5,h6 {grid-column: 1 / span 5;}
-.doc-grid p {grid-column: 1 / span 3;}
-.doc-grid dl {display: grid; grid-template-columns: subgrid;
-grid-column: 1 / span 5;}
-.doc-grid dl .hljs {
-  padding: 0em;
-  font-size: 0.85em;
-}
-
-"]
 
 ^{:kindly/hide-code true :kindly/kind :kind/hiccup}
 [:h1 {:class "big wide"} "An introduction to 2d geometry with "
@@ -223,13 +155,17 @@ grid-column: 1 / span 5;}
       (map (fn [i] (easings/cubic-in (/ i 25))) (range 15 24 0.8))
       rect-count 13
       col-count (count pct-range)
-      w 900
-      h 700
+      w 700
+      h 900
       max-y (* h 0.95)
       r-width (/ (* w 0.9) col-count)
       r-height 10]
   (svg/serialize
-   (svg/svg {:width w :height h}
+   (svg/svg {:id      "rect-grid"
+             :width   "auto"
+             :height  "auto"
+             :viewBox "0 0 700 900"
+             :preserveAspectRatio "xMidYMid meet"}
             (for [[ix pct] (map-indexed vector pct-range)
                   y        (evenly-space-up-to rect-count max-y pct)]
               (let [x (* (/ (* 1.0 w) col-count) ix)
@@ -288,7 +224,7 @@ grid-column: 1 / span 5;}
     (list [:dt {:style {:grid-column "1 / span 1"}}
            [:strong (display-expr sym)]]
           (let [v (var-get var)]
-            [:dd {:style {:grid-column "2 / -1"}}
+            [:dd {:style {:grid-column "2 / body-content-end"}}
              (-> v
                  (select-keys [:on :sigs :arglists])
                  (display-expr))])))]]
@@ -422,8 +358,7 @@ grid-column: 1 / span 5;}
    (repeat triangle-line-ct tri-base-line)))
 
 ;; Then convert to SVG and add them to a group element that sets a SVG
-;; animation
-;; property on the outline of each triangle shape.
+;; animation  property on the outline of each triangle shape.
 ^{:kindly/hide-code false :kindly/hide-result true}
 (def tri-svg-animation
   (svg/serialize

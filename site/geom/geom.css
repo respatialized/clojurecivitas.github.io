@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+--color-white:     #e6e6e8;
+--color-cool-grey: #597d8e;
+--color-teal:      #5abeb1;
+--color-blue:      #4aa7e9;
+--color-green:     #31bc5a;
+--color-pink:      #e788ea;
+--color-red:       #ff5549;
+--color-yellow:    #ecd248;
+--color-black:     #1a1a1a;
+--color-dark-red: color-mix(in srgb, var(--color-red), var(--color-black) 20%);
+--color-dark-cool-grey: color-mix(in srgb, var(--color-cool-grey), var(--color-black) 20%);
+--color-dark-yellow: color-mix(in srgb, var(--color-yellow), var(--color-black) 30%);
+--color-dark-teal: color-mix(in srgb, var(--color-teal), var(--color-black) 20%);
+--color-dark-blue: color-mix(in srgb, var(--color-blue), var(--color-black) 20%);
+--color-dark-green: color-mix(in srgb, var(--color-green), var(--color-black) 30%);
+}
+
+body {font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background: var(--color-white);
+      font-size: 21px;}
+
+dt, dd {font-weight: 400;}
+
+.bg-light {background: var(--color-white);
+           background-color: var(--color-white) !important;
+           --bslib-color-bg: var(--color-white);
+           --bslib-color-fg: var(--color-black);
+           color: var(--color-black);}
+
+pre,code,.sourceCode {font-family: 'Atkinson Hyperlegible Mono', monospace;}
+
+pre, code:not(.sourceCode) {color: var(--color-dark-red);
+                            background: var(--color-white);}
+
+p code:not(.sourceCode) {background: var(--color-white); background-color: var(--color-white);
+font-weight: 500;
+font-size: 1em;
+padding: 0em;}
+
+.printedClojure .sourceCode pre {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+
+.sourceCode .hljs-name, .hljs-built_in, .hljs-literal {color: black;}
+.sourceCode .hljs-title, span.fu  {color: var(--color-dark-red) !important; font-weight: 800;}
+.sourceCode .hljs-keyword, span.kw, span.bu  {font-weight: 600 !important; color: var(--color-black) !important;}
+.sourceCode .hljs-number, .hljs-symbol, span.at, span.dv {color: var(--color-dark-yellow) !important;}
+.sourceCode .hljs-string, span.st  {color: var(--color-dark-green) !important;}
+
+
+
+h1,h2,h3,h4,h5,h6 {font-size: 1.5em;
+   font-family: 'Atkinson Hyperlegible Next', sans-serif;
+}
+.title {font-family: 'Atkinson Hyperlegible Next', sans-serif;
+        font-weight: 800;}
+
+font-size: 0.9em;
+line-height: 1.45em;}
+
+p {line-height: 1.45em;}
+
+#quarto-document-content {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.annotation {display: none;}
+.annotation:hover {display: content;}
+.doc-grid {
+ display: grid;
+ grid-template-columns: subgrid;
+ grid-column: body-content-start/body-content-end;
+}
+.doc-grid h1,h2,h3,h4,h5,h6 {grid-column: 1 / span 5;}
+.doc-grid p {grid-column: 1 / span 3;}
+.doc-grid dl {display: grid;
+   /*grid-template-columns: subgrid; */
+   grid-template-columns: auto auto;
+   grid-column: body-content-start/body-content-end;
+}
+.doc-grid dl dt {grid-column: 1 / span 1;}
+.doc-grid dl dd {grid-column: 2 / span 1;}
+.doc-grid dl .hljs {
+  padding: 0em;
+  font-size: 0.85em;
+}
+
+main#quarto-document-content.content * {
+
+  grid-column: body-content-start/body-content-end;
+}
+
+/* add in styles to make header consistent with rest of site */
+
+#quarto-header {
+  font-family: 'Fira Sans', sans-serif;
+}
