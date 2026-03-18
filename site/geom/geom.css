@@ -70,8 +70,22 @@ p {line-height: 1.45em;}
   grid-template-columns: subgrid;
 }
 
-.annotation {display: none;}
-.annotation:hover {display: content;}
+.annotation {display: none;
+z-index: -1;
+fill-opacity: 0;
+}
+.annotation:hover {display: contents;}
+.annotated:hover + .annotation {
+  display: inherit;
+}
+.annotated:hover {
+  fill-opacity: 1;
+  stroke: var(--color-dark-red);
+  stroke-dasharray: none;
+  stroke-width: 2px;
+  fill: var(--color-red);
+}
+
 .doc-grid {
  display: grid;
  grid-template-columns: subgrid;
@@ -91,7 +105,7 @@ p {line-height: 1.45em;}
   font-size: 0.85em;
 }
 
-main#quarto-document-content.content * {
+main#quarto-document-content.content>* {
 
   grid-column: body-content-start/body-content-end;
 }

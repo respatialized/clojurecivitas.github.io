@@ -34,6 +34,7 @@
             [clojure.pprint :as pprint]
             [scicloj.kindly.v4.api :as kindly]
             [scicloj.kindly.v4.kind :as kind]
+            [hiccup.util]
             [clojure.set :as set])
   (:import [thi.ng.geom.types Path2 Bezier2 Circle2 Ellipse2 Line2 LineStrip2
             Polygon2 Rect2 Triangle2]
@@ -147,7 +148,16 @@
      [:code {:style {:color "#ff5549" :font-weight 700 :font-size "1.05em"}} "#"
       (:tag lit)] [:br] (display-expr (:form lit))]))
 
-^:kind/hiccup (geom->hiccup (rect/rect 0 0 30 30))
+(defn geom->hiccup2
+  [g]
+  (let [lit (get-literal g)]
+    [:pre
+     [:code {:style {:color "#ff5549" :font-weight 700 :font-size "1.05em"}} "#"
+      (:tag lit)] [:br]
+     [:code {:class "language-clojure"}
+      (hiccup.util/escape-html (with-out-str (pprint/pprint (:form lit))))]]))
+
+;^:kind/hiccup (geom->hiccup (rect/rect 0 0 30 30))
 
 ^{:kindly/hide-code true :kindly/kind :kind/hiccup}
 (let [pct-range
@@ -156,7 +166,7 @@
       rect-count 13
       col-count (count pct-range)
       w 700
-      h 900
+      h 400
       max-y (* h 0.95)
       r-width (/ (* w 0.9) col-count)
       r-height 10]
@@ -164,8 +174,8 @@
    (svg/svg {:id      "rect-grid"
              :width   "auto"
              :height  "auto"
-             :viewBox "0 0 700 900"
-             :preserveAspectRatio "xMidYMid meet"}
+             :viewBox "0 0 700 500"
+             :preserveAspectRatio "xMinYMin meet"}
             (for [[ix pct] (map-indexed vector pct-range)
                   y        (evenly-space-up-to rect-count max-y pct)]
               (let [x (* (/ (* 1.0 w) col-count) ix)
@@ -174,15 +184,15 @@
                   [:g
                    (-> rect-geom
                        adapt/all-as-svg
-                       (update 1       assoc
-                               :stroke "#e6e6e6"
-                               :fill   "#1a1a1a"
-                               :class  "annotated"
+                       (update 1             assoc
+                               :stroke       "var(--color-black)"
+                               :fill-opacity 0
+                               :class        "annotated"
                                :stroke-dasharray "6,2"))
                    [:foreignObject
-                    {:class "annotation" :x 15 :y 450 :width 450 :height 300}
+                    {:class "annotation" :x 15 :y 200 :width 500 :height 300}
                     [:div {:xmlns "http://www.w3.org/1999/xhtml"}
-                     (geom->hiccup rect-geom)]]]))))))
+                     (geom->hiccup2 rect-geom)]]]))))))
 
 
 (def geom-core-protocols
