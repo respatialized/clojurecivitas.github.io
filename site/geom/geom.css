@@ -73,6 +73,7 @@ p {line-height: 1.45em;}
 .annotation {display: none;
 z-index: -1;
 fill-opacity: 0;
+font-size: 0.8em;
 }
 .annotation:hover {display: contents;}
 .annotated:hover + .annotation {

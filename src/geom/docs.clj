@@ -81,6 +81,10 @@
   (let [r-type (symbol (.getName (type r)))]
     (tagged-literal r-type (into {} r))))
 
+(defmethod pprint/simple-dispatch thi.ng.geom.vector.Vec2
+  [v]
+  (pprint/pprint (mapv #(double (with-precision 4 (* (bigdec %) 1.00M))) v)))
+
 (defmethod pprint/simple-dispatch thi.ng.geom.types.Rect2
   [g]
   (pprint/pprint (get-literal g)))
@@ -153,9 +157,11 @@
   (let [lit (get-literal g)]
     [:pre
      [:code {:style {:color "#ff5549" :font-weight 700 :font-size "1.05em"}} "#"
-      (:tag lit)] [:br]
+      (:tag lit)] #_[:br]
      [:code {:class "language-clojure"}
-      (hiccup.util/escape-html (with-out-str (pprint/pprint (:form lit))))]]))
+      (hiccup.util/escape-html (-> (with-out-str (pprint/pprint (:form lit)))
+                                   (str/replace #"," "")
+                                   (str/replace #"\R" "")))]]))
 
 ;^:kind/hiccup (geom->hiccup (rect/rect 0 0 30 30))
 
@@ -190,7 +196,7 @@
                                :class        "annotated"
                                :stroke-dasharray "6,2"))
                    [:foreignObject
-                    {:class "annotation" :x 15 :y 200 :width 500 :height 300}
+                    {:class "annotation" :x 15 :y 250 :width 400 :height 300}
                     [:div {:xmlns "http://www.w3.org/1999/xhtml"}
                      (geom->hiccup2 rect-geom)]]]))))))
 
